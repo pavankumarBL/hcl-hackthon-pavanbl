@@ -1,33 +1,33 @@
-# resource "aws_lambda_function" "patient_service_lambda" {
-#   function_name = "patient-service-lambda"
+resource "aws_lambda_function" "patient_service_lambda" {
+  function_name = "patient-service-lambda"
 
-#   package_type = "Image"
-#   image_uri    = "<your_ecr_image_uri>"  # Replace with the ECR image URI for Patient Service
-  
-#   role = aws_iam_role.lambda_role.arn
+  package_type = "Image"
+  image_uri    = aws_ecr_repository.patient_service.repository_url  
 
-#   vpc_config {
-#     subnet_ids         = [aws_subnet.subnet_1.id, aws_subnet.subnet_2.id]
-#     security_group_ids = [aws_security_group.lambda_sg.id]
-#   }
+  role = aws_iam_role.lambda_role.arn
 
-#   memory_size = 128
-#   timeout     = 10
-# }
+  vpc_config {
+    subnet_ids         = [aws_subnet.subnet_1.id, aws_subnet.subnet_2.id]
+    security_group_ids = [aws_security_group.lambda_sg.id]
+  }
 
-# resource "aws_lambda_function" "appointment_service_lambda" {
-#   function_name = "appointment-service-lambda"
+  memory_size = 128
+  timeout     = 10
+}
 
-#   package_type = "Image"
-#   image_uri    = "<your_ecr_image_uri>"  # Replace with the ECR image URI for Appointment Service
+resource "aws_lambda_function" "appointment_service_lambda" {
+  function_name = "appointment-service-lambda"
 
-#   role = aws_iam_role.lambda_role.arn
+  package_type = "Image"
+  image_uri    = aws_ecr_repository.appointment_service.repository_url  
 
-#   vpc_config {
-#     subnet_ids         = [aws_subnet.subnet_1.id, aws_subnet.subnet_2.id]
-#     security_group_ids = [aws_security_group.lambda_sg.id]
-#   }
+  role = aws_iam_role.lambda_role.arn
 
-#   memory_size = 128
-#   timeout     = 10
-# }
+  vpc_config {
+    subnet_ids         = [aws_subnet.subnet_1.id, aws_subnet.subnet_2.id]
+    security_group_ids = [aws_security_group.lambda_sg.id]
+  }
+
+  memory_size = 128
+  timeout     = 10
+}
