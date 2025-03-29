@@ -1,0 +1,49 @@
+name: Build and Push Docker Image to ECR
+
+on:
+  push:
+    branches:
+      - feature-hcl  
+
+jobs:
+  build_and_push:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up AWS CLI
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        role-to-assume: arn:aws:iam::539935451710:role/GitHubActionRole-pavanbl
+        aws-region: "us-east-1"  # Replace with your AWS region
+
+    - name: Login to Amazon ECR
+      run: |
+        # Use the temporary credentials obtained via OIDC to log in to ECR
+        aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 539935451710.dkr.ecr.us-east-1.amazonaws.com
+
+    - name: Build Docker image
+      run: |
+        docker build -t patient-service .
+
+    - name: Tag Docker image for ECR
+      run: |
+        docker tag patient-service:latest 539935451710.dkr.ecr.us-east-1.amazonaws.com/patient-service-repo:latest
+
+    - name: Push Docker image to ECR
+      run: |
+        docker push 539935451710.dkr.ecr.us-east-1.amazonaws.com/patient-service-repo:latest
+
+    - name: Build Docker image for appointment service
+      run: |
+        docker build -t appointment-service .
+
+    - name: Tag Docker image for appointment service
+      run: |
+        docker tag appointment-service:latest 539935451710.dkr.ecr.us-east-1.amazonaws.com/appointment-service-repo:latest
+
+    - name: Push appointment service Docker image to ECR
+      run: |
+        docker push 539935451710.dkr.ecr.us-east-1.amazonaws.com/appointment-service-repo:latest
