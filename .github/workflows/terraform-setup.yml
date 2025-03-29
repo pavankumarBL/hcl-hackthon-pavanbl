@@ -44,10 +44,12 @@ jobs:
         cd terraform
         terraform plan -out=terraform.plan
 
-    # - name: Terraform Apply
-    #   run: terraform apply -auto-approve terraform.plan
+    - name: Terraform Apply
+      run: |
+        cd terraform
+        terraform apply -auto-approve terraform.plan
 
-    # - name: Upload Terraform State to S3
-    #   run: |
-    #     aws s3 cp terraform.tfstate s3://hcl-hackathon-terraform-state-pavanbl/terraform.tfstate
-    #     aws s3 cp terraform.tfstate.backup s3://hcl-hackathon-terraform-state-pavanbl/terraform.tfstate.backup
+    - name: Upload Terraform State to S3
+      run: |
+        aws s3 cp terraform.tfstate s3://hcl-hackathon-terraform-state-pavanbl/terraform.tfstate
+        aws s3 cp terraform.tfstate.backup s3://hcl-hackathon-terraform-state-pavanbl/terraform.tfstate.backup
