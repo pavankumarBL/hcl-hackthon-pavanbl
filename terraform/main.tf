@@ -2,7 +2,8 @@ resource "aws_lambda_function" "patient_service_lambda" {
   function_name = "patient-service-lambda"
 
   package_type = "Image"
-  image_uri    = aws_ecr_repository.patient_service_ecr.repository_url  
+  # image_uri    = aws_ecr_repository.patient_service_ecr.repository_url 
+  image_uri = "539935451710.dkr.ecr.us-east-1.amazonaws.com/patient-service-repo:latest" 
 
   role = aws_iam_role.lambda_role.arn
 
@@ -19,7 +20,8 @@ resource "aws_lambda_function" "appointment_service_lambda" {
   function_name = "appointment-service-lambda"
 
   package_type = "Image"
-  image_uri    = aws_ecr_repository.appointment_service_ecr.repository_url  
+  # image_uri    = aws_ecr_repository.appointment_service_ecr.repository_url  
+  image_uri = "539935451710.dkr.ecr.us-east-1.amazonaws.com/appointment-service-repo:latest"
 
   role = aws_iam_role.lambda_role.arn
 
