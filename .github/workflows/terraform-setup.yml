@@ -3,10 +3,10 @@ name: Infrastructure Deployment (Terraform)
 on:
   push:
     branches:
-      - main
+      - feature-hcl
   pull_request:
     branches:
-      - main
+      - feature-hcl
 
 jobs:
   terraform:
