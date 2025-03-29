@@ -36,6 +36,7 @@ jobs:
         pwd
         echo "---"
         ls
+        cd terraform
         terraform init
 
     # - name: Terraform Plan
