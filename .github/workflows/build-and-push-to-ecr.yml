@@ -28,6 +28,8 @@ jobs:
 
     - name: Build Docker image
       run: |
+        ls
+        cd patient-service
         docker build -t patient-service .
 
     - name: Tag Docker image for ECR
@@ -40,6 +42,7 @@ jobs:
 
     - name: Build Docker image for appointment service
       run: |
+        cd appointment-service
         docker build -t appointment-service .
 
     - name: Tag Docker image for appointment service
