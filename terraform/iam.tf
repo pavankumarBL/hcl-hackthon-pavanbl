@@ -16,20 +16,50 @@ resource "aws_iam_role" "lambda_role" {
   })
 }
 
+# resource "aws_iam_policy" "lambda_policy" {
+#   name        = "lambda-policy"
+#   description = "Policy to allow Lambda functions to access resources"
+#   policy      = jsonencode({
+#     Version = "2012-10-17"
+#     Statement = [
+#       {
+#         Action   = ["logs:*", "s3:*", "dynamodb:*", "sns:*"]
+#         Effect   = "Allow"
+#         Resource = "*"
+#       },
+#     ]
+#   })
+# }
+
 resource "aws_iam_policy" "lambda_policy" {
   name        = "lambda-policy"
-  description = "Policy to allow Lambda functions to access resources"
+  description = "Policy for Lambda to pull images from ECR and interact with CloudWatch"
   policy      = jsonencode({
     Version = "2012-10-17"
     Statement = [
       {
-        Action   = ["logs:*", "s3:*", "dynamodb:*", "sns:*"]
-        Effect   = "Allow"
-        Resource = "*"
+        Effect = "Allow"
+        Action = [
+          "ecr:GetAuthorizationToken",
+          "ecr:BatchGetImage",
+          "ecr:GetImage"
+        ]
+        Resource = [
+          "arn:aws:ecr:us-east-1:539935451710:repository/patient-service-repo",
+          "arn:aws:ecr:us-east-1:539935451710:repository/appointment-service-repo"
+        ]
       },
+      {
+        Effect = "Allow"
+        Action = [
+          "logs:*"
+        ]
+        Resource = "*"
+      }
     ]
   })
 }
+
 
 resource "aws_iam_policy_attachment" "lambda_policy_attachment" {
   name       = "lambda-policy-attachment"
