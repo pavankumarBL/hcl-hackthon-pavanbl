@@ -116,20 +116,20 @@ resource "aws_iam_role_policy_attachment" "api_gateway_policy_attachment" {
 
 
 resource "aws_api_gateway_method_settings" "method_settings" {
-  rest_api_id = aws_api_gateway_rest_api.api.id       # Replace with your actual API Gateway ID
-  stage_name  = "prod"     # Replace with your actual stage name
+  rest_api_id = aws_api_gateway_rest_api.api.id   # API Gateway ID reference
+  stage_name  = "prod"                             # The stage name you're using (e.g., prod)
 
-  # Specify the method for which you're applying settings (e.g., GET)
-  method_path = "GET"                 # Replace with your actual HTTP method
+  # Specify the full resource path and HTTP method (e.g., /appointments/GET)
+  method_path = "/appointments/GET"                # The path for the GET method of /appointments resource
 
-  # Define at least one setting inside the settings block
   settings {
-    logging_level = "INFO"
-    metrics_enabled = true
-    data_trace_enabled = true  # Optionally enable data tracing
-    throttling_burst_limit = 5000  # Example: Set burst limit for throttling
-    throttling_rate_limit = 1000   # Example: Set rate limit for throttling
+    logging_level         = "INFO"
+    metrics_enabled       = true
+    data_trace_enabled    = true  # Optionally enable data tracing
+    throttling_burst_limit = 5000  # Set burst limit for throttling
+    throttling_rate_limit  = 1000  # Set rate limit for throttling
   }
 }
+
 
 
