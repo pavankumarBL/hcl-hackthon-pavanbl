@@ -39,8 +39,8 @@ jobs:
         cd terraform
         terraform init
 
-    # - name: Terraform Plan
-    #   run: terraform plan -out=terraform.plan
+    - name: Terraform Plan
+      run: terraform plan -out=terraform.plan
 
     # - name: Terraform Apply
     #   run: terraform apply -auto-approve terraform.plan
