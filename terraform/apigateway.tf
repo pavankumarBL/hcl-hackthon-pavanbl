@@ -4,21 +4,21 @@ resource "aws_api_gateway_rest_api" "api" {
   description = "API for Patient and Appointment Services"
 }
 
-# Create a /patients resource
+# Create /patients resource
 resource "aws_api_gateway_resource" "patient_resource" {
   rest_api_id = aws_api_gateway_rest_api.api.id
   parent_id   = aws_api_gateway_rest_api.api.root_resource_id
   path_part   = "patients"
 }
 
-# Create a /appointments resource
+# Create /appointments resource
 resource "aws_api_gateway_resource" "appointment_resource" {
   rest_api_id = aws_api_gateway_rest_api.api.id
   parent_id   = aws_api_gateway_rest_api.api.root_resource_id
   path_part   = "appointments"
 }
 
-# Create a GET method for /patients
+# Create GET method for /patients
 resource "aws_api_gateway_method" "patient_method" {
   rest_api_id   = aws_api_gateway_rest_api.api.id
   resource_id   = aws_api_gateway_resource.patient_resource.id
@@ -26,7 +26,7 @@ resource "aws_api_gateway_method" "patient_method" {
   authorization = "NONE"
 }
 
-# Create a GET method for /appointments
+# Create GET method for /appointments
 resource "aws_api_gateway_method" "appointment_method" {
   rest_api_id   = aws_api_gateway_rest_api.api.id
   resource_id   = aws_api_gateway_resource.appointment_resource.id
@@ -57,6 +57,13 @@ resource "aws_api_gateway_integration" "appointment_integration" {
 # Deploy API Gateway
 resource "aws_api_gateway_deployment" "api_deployment" {
   rest_api_id = aws_api_gateway_rest_api.api.id
+
+  depends_on = [
+    aws_api_gateway_method.patient_method,
+    aws_api_gateway_method.appointment_method,
+    aws_api_gateway_integration.patient_integration,
+    aws_api_gateway_integration.appointment_integration
+  ]
 }
 
 # Optional: Set up a stage for your API Gateway (prod stage)
